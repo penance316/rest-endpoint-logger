@@ -1,6 +1,25 @@
 var express = require('express'),
     moment = require('moment'),
+    winston = require('winston'),
     bodyParser = require('body-parser');
+
+// Setup windston logging to include datetime
+var logger = new winston.Logger({
+    level:      'info',
+    transports: [
+        new (winston.transports.Console)({
+            timestamp: function () {
+                return moment().format('hh:mm:ss a');
+            },
+            formatter: function (options) {
+                // Return string will be passed to logger.
+                return options.timestamp() + ' : ' + options.level.toUpperCase() + ' : ' + (options.message ? options.message : '') +
+                    (options.meta && Object.keys(options.meta).length ? '\n\t' + JSON.stringify(options.meta) : '' );
+            }
+        }),
+        new (winston.transports.File)({filename: 'logfile.log'})
+    ]
+});
 
 var app = express();
 
@@ -12,15 +31,12 @@ app.use(bodyParser.urlencoded({extended: false}));
 
 app.post('/test', function (req, res) {
 
-    // print to console
-    console.log(moment().format('hh:mm:ss a '));
-    console.log(req.body);
+    logger.info(req.body);
 
-    // just call res.end(), or show as string on web
     res.sendStatus(200);
 });
 
 
 app.listen(3000, function () {
-    console.log('Example app listening on port ' + app.get('port'));
+    logger.info('Example app listening on port ' + app.get('port'));
 });
