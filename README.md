@@ -8,4 +8,4 @@ small utility to setup an endpoint to log post requests
 ```npm run external```
 
 ### Outcome
-Logs post requests to [serveraddress]/test
+Logs post requests [serveraddress]/test to console and file
