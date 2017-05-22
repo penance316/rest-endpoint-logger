@@ -1,4 +1,4 @@
-# rest-response-logger
+# rest-endpoint-logger
 small utility to setup an endpoint to log post requests
 
 #### Start server
@@ -8,4 +8,4 @@ small utility to setup an endpoint to log post requests
 ```npm run external```
 
 ### Outcome
-Logs post requests [serveraddress]/test to console and file
+Logs POST requests to [serveraddress]/test to the console and a log file
